@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <boost/filesystem.hpp>
 
 static bool cmp(std::string a, std::string b)
 {
@@ -29,6 +30,16 @@ bool checkPostfix(std::string fileName, std::string postfix)
 std::vector<std::string> pathList(std::string path, bool sort=false)
 {
     std::vector<std::string> files;
+    if(!boost::filesystem::exists(path))
+    {
+        std::cout<<"path don't exist"<<std::endl;
+        return files;
+    }
+    if(!boost::filesystem::is_directory(path))
+    {
+        std::cout<<"not a dir"<<std::endl;
+        return files;
+    }
     struct dirent* ptr;
     DIR* dir;
     dir = opendir(path.c_str());

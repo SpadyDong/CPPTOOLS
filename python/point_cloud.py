@@ -96,9 +96,15 @@ def point2polarBEV(points, proj_H, proj_W, max_range, view_angle):
     return proj_bev
 
 
-def point2BEV(pc, width, scale):
-    cloud2d = pc[:, 0:2] * scale + width // 2
-    cloud2d = cloud2d[(cloud2d[:, 0] >= 0) & (cloud2d[:, 0] < width) & (cloud2d[:, 1] >= 0) & (cloud2d[:, 1] < width)]
-    cloud2d = np.floor(cloud2d).astype(np.int32)
-    image = np.full((width, width), 0, dtype=np.float32)
-    image[cloud2d[:, 0], cloud2d[:, 1]] = 255
+def point2BEV(points, scale=10, shape=(500,500)):
+    map = np.zeros(shape).astype(np.uint8)
+    points = points*scale
+    points[:,0] += shape[0]/2
+    points[:,1] += shape[1]/2
+    points = points.astype(int)
+    points[points[:,0]>=shape[0]] = shape[0]-1
+    points[points[:,1]>=shape[1]] = shape[1]-1
+    points[points[:,0]<0] = 0
+    points[points[:,1]<0] = 0
+    map[points[:,0], points[:,1]] = points[:,2]
+    return map
