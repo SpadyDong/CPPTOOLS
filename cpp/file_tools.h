@@ -1,10 +1,15 @@
 #ifndef _FILE_TOOLS_H
 #define _FILE_TOOLS_H
 
+/*
+一些常用的文件操作
+*/
+
 #include <dirent.h>
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <iostream>
 #include <boost/filesystem.hpp>
 
 static bool cmp(std::string a, std::string b)
