@@ -119,8 +119,8 @@ public:
 
 int main() {
     Synchronizer sync;
-    sync.image_files_path = "/media/lwl/mdisk2/beijing_p0_xwd/image0_all/";
-    sync.timestamp_file_path = "/media/lwl/mdisk2/beijing_p0_xwd/pose0.txt";
+    sync.image_files_path = "image_path";
+    sync.timestamp_file_path = "pose_path/pose.txt";
     sync.run();
 
     return 0;
