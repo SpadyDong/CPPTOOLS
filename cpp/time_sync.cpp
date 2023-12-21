@@ -1,5 +1,5 @@
 /*
-Author: xieweidnog
+Author: xieweidong
 Date: 2023-12-21
 Description: 时间戳同步
 已有n个激光雷达关键帧的时间戳，以及m个图像帧，m>n，为每个激光雷达帧找到时间戳最近的图像帧
