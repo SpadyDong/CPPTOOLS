@@ -1,9 +1,9 @@
 /*
 Author: xieweidong
 Date: 2023-12-21
-Description: 时间戳同步
-已有n个激光雷达关键帧的时间戳，以及m个图像帧，m>n，为每个激光雷达帧找到时间戳最近的图像帧
+Description: 已有n个激光雷达关键帧的时间戳，以及m个图像帧，m>n，为每个激光雷达帧找到时间戳最近的图像帧
 要求图像的时间戳范围能够覆盖关键帧的时间戳范围
+确认文件名和时间戳文件中时间的单位是一致的
 需要在72行，timestamps.push_back(data[k]); 中将k指定为时间戳所在的列，如 t,x,y,z,qx,qy,qz,qw 的情况下，k=0
 */
 
@@ -79,33 +79,37 @@ public:
         std::cout << std::setprecision(18);
         
         // 同步
-        size_t index_file = 0;
+        size_t index_image = 0;
         size_t index_stamp = 0;
         std::vector<std::string> keyframes;
-        while(index_file < image_file_names.size()-1 && index_stamp < timestamps.size())
+        while(index_image < image_file_names.size()-1 && index_stamp < timestamps.size())
         {
-            double t1 = std::stod(image_file_names[index_file].substr(0, image_file_names[index_file].length()-4))/1000;
-            double t2 = std::stod(image_file_names[index_file+1].substr(0, image_file_names[index_file].length()-4))/1000;
+            double t1 = std::stod(image_file_names[index_image].substr(0, image_file_names[index_image].length()-4))/1000;
+            double t2 = std::stod(image_file_names[index_image+1].substr(0, image_file_names[index_image].length()-4))/1000;
             if(t1 <= timestamps[index_stamp] && t2 > timestamps[index_stamp])
             {
                 if(std::abs(t1 - timestamps[index_stamp]) <= std::abs(t2 - timestamps[index_stamp]))
                 {
-                    keyframes.push_back(image_file_names[index_file]);
+                    keyframes.push_back(image_file_names[index_image]);
                 }
                 else
                 {
-                    keyframes.push_back(image_file_names[index_file+1]);
+                    keyframes.push_back(image_file_names[index_image+1]);
                 }
-                std::cout << image_file_names[index_file] << " => " << timestamps[index_stamp] << std::endl;
+                std::cout << image_file_names[index_image] << " => " << timestamps[index_stamp] << std::endl;
                 index_stamp++;
+            }
+            if(index_stamp >= timestamps.size())
+            {
+                break;
             }
             if(t1 >= timestamps[index_stamp])
             {
-                index_file--;
+                index_image--;
             }
             else
             {
-                index_file++;
+                index_image++;
             }
         }
         std::cout << keyframes.size() << " frames synchronized" << std::endl;
@@ -115,8 +119,8 @@ public:
 
 int main() {
     Synchronizer sync;
-    sync.image_files_path = "images_path";
-    sync.timestamp_file_path = "pose_path/pose.txt";
+    sync.image_files_path = "/media/lwl/mdisk2/beijing_p0_xwd/image0_all/";
+    sync.timestamp_file_path = "/media/lwl/mdisk2/beijing_p0_xwd/pose0.txt";
     sync.run();
 
     return 0;
