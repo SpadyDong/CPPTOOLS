@@ -5,7 +5,7 @@ Description: 时间戳同步
 已有n个激光雷达关键帧的时间戳，以及m个图像帧，m>n，为每个激光雷达帧找到时间戳最近的图像帧
 要求图像的时间戳范围能够覆盖关键帧的时间戳范围
 根据需要修改 np.loadtxt 中的 delimiter
-需要修改时间戳所在的列，如 t,x,y,z,qx,qy,qz,qw 的情况下，t_index = 1
+需要修改时间戳所在的列，如 t,x,y,z,qx,qy,qz,qw 的情况下，t_index = 0
 '''
 
 import os
