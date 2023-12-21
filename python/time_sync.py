@@ -44,4 +44,4 @@ def time_sync(image_files_path, timestamp_file_path):
             index_image += 1
     print("total keyframe num: ", len(keyframes))
     
-time_sync("/media/lwl/mdisk2/beijing_p0_xwd/image0_all", "/media/lwl/mdisk2/beijing_p0_xwd/pose0.txt")
+time_sync("image_path", "pose_path/pose.txt")
